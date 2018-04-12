@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400');
+$roboto: 'Roboto', sans-serif;
+
+@import '../node_modules/normalize.css/normalize.css';
+
+body{
+  font-family: $roboto;
+}
+
+header{
+  background: rgba(0,0,0, .2);
+  ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    li{
+      display: inline-block;
+      a{
+        text-decoration: none;
+        font-weight: 300;
+        text-transform: uppercase;
+        padding: 20px;
+        display: block;
+        color: black;
+      }
+    }
+  }
+}
+
+.main{
+  margin: 0 auto;
+  padding: 30px;
+  h1{
+    font-weight: 100;
+  }
+
+  .homepage{
+    text-align: center;
+    h1{
+      font-size: 5rem;
+    }
+    input{
+      border: 1px solid rgba(0,0,0, .2);
+      border-radius: 5px;
+      font-size: 1.5rem;
+      padding: 10px;
+      font-weight: 300;
+      margin-bottom: 30px;
+    }
+
+    .results{
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 20px 10px;
+      .result{
+        display: flex;
+        text-align: center;
+        height: 50px;
+        a{
+          display: block;
+          width: 100%;
+          align-self: center;
+          padding: 20px;
+          background: rgba(0,0,0,.1);
+          color: black;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}
