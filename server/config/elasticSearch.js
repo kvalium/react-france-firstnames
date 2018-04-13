@@ -11,9 +11,15 @@ var client = new elasticsearch.Client({
 });
 
 const elasticSettings = {
-
+  "analysis": {
+    "analyzer": {
+      "default": {
+        "tokenizer": "standard",
+        "filter":  [ "standard", "uppercase", "asciifolding" ]
+      }
+    }
+  }
 }
-
 
 client.ping({
   // ping usually has a 3000ms timeout
@@ -23,27 +29,17 @@ client.ping({
     console.trace('ElasticSearch cluster is down!');
   } else {
     console.log('✅ ElasticSearch connection established.');
-    deleteIndex().then(() => {
-      loadElastic().then((nb) => {
-        console.log(colors.bold.green('🚀 ' + nb + ' Prenom loaded on Elastic cluster.'));
-      })
+    client.indices.delete({index: 'prenoms'}, () => {
+      
+      client.indices.create({index: 'prenoms', body: elasticSettings},
+        loadElastic().then((nb) => {
+          //client.indices.getSettings({index: 'prenoms'}, (err, resp) => console.log(resp.prenoms.settings));
+          console.log(colors.bold.green('🚀 ' + nb + ' Prenom loaded on Elastic cluster.'));
+        })
+      );
     });
   }
 });
-
-const deleteIndex = () => {
-  return new Promise(resolve => {
-    client.deleteByQuery({
-      index: 'prenoms',
-      body: {
-        query: {
-          match_all: {}
-        }
-      }
-    });
-    resolve();
-  });
-}
 
 const countElements = () => {
   client.count({
@@ -96,11 +92,12 @@ const search = (term) => {
   return new Promise(resolve => {
     client.search({
         index: 'prenoms',
-        q: `prenom:${term}*`
+        analyzer: 'default',
+        size: 100,
+        q: `prenom:${term}~1`
       },
       (err, reply) => {
         const hits = reply.hits.hits;
-        console.log(hits);
         let results = [];
         hits.filter(x => results.push(x._source.prenom));
         const end = new Date().getTime(),
