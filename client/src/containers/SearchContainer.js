@@ -24,7 +24,7 @@ export class SearchContainer extends React.Component{
         }
 
         AppoloClient.query({
-            query: gql`query($term: String!){ search(term: $term )}`,
+            query: gql`query($term: String!){ search(term: $term, nb: 21, lev:2 )}`,
             variables: {
                 term: val
             }

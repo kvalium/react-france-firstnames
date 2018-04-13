@@ -1,13 +1,12 @@
 const elasticsearch = require('elasticsearch');
 const
-  ELASTICSEARCH_HOST = process.env.ELASTICSEARCH_HOST || 'localhost',
-  ELASTICSEARCH_PORT = process.env.ELASTICSEARCH_PORT || 9200,
+  ELASTICSEARCH_HOST = process.env.ELASTICSEARCH_HOST || 'localhost:9200',
   colors = require('colors'),
   models = require('../models/prenom'),
   franceModel = models.franceModel;
 
 var client = new elasticsearch.Client({
-  host: `${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}`,
+  host: ELASTICSEARCH_HOST,
 });
 
 const elasticSettings = {
@@ -26,7 +25,7 @@ client.ping({
   requestTimeout: 1000
 }, error => {
   if (error) {
-    console.trace('ElasticSearch cluster is down!');
+    console.trace(`ElasticSearch cluster is down! host: ${ELASTICSEARCH_HOST}`);
   } else {
     console.log('✅ ElasticSearch connection established.');
     client.indices.delete({index: 'prenoms'}, () => {
@@ -86,17 +85,28 @@ const loadElastic = () => {
 }
 
 
-const search = (term) => {
+const search = (term, results = 100, lev) => {
   const start = new Date().getTime();
+  
+  let search = lev ? term + '~' + Math.abs(lev) : term;
 
-  return new Promise(resolve => {
+  if(results > 100){
+    let results = 100;
+  }
+
+  return new Promise((resolve, reject) => {
     client.search({
         index: 'prenoms',
         analyzer: 'default',
-        size: 100,
-        q: `prenom:${term}~1`
+        size: results,
+        q: `prenom:${search}`
       },
       (err, reply) => {
+        if(err){
+          console.log(err.message);
+          resolve({results: []});
+          return;
+        }
         const hits = reply.hits.hits;
         let results = [];
         hits.filter(x => results.push(x._source.prenom));

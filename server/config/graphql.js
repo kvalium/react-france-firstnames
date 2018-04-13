@@ -42,8 +42,14 @@ let schema = buildSchema(`
     "First name data aggregated with all departments for both sexs"
     getPrenomFranceData(prenom: String!, annee: Int): [SexCategory],
 
-    "First name search engine (wildcard is added at the string end)."
-    search(term: String!): [String],
+    "First name search engine "
+    search(
+        "Search term"
+        term: String!, 
+        "Number of results (gapped to 200)"
+        nb: Int, 
+        "Levenshtein distance (max: 10)"
+        lev: Int): [String],
   }
 `);
 
@@ -85,10 +91,10 @@ let root = {
      * @param string term search pattern without wildcards
      * @returns {Promise|*|PromiseLike<T>|Promise<T>}
      */
-    search: ({term}) => {
-        return elastic.search(term).then((nb) => {
-            console.log('Prenom Search for: "' + term + '" => ' + nb.results.length + ' results (' + nb.timer + ' ms)');
-            return nb.results;
+    search: ({term, nb, lev}) => {
+        return elastic.search(term, nb, lev).then((results) => {
+            console.log(`Search t=${term}, nb=${nb}, lev=${lev} => ${results.results.length} results (${results.timer} ms)`);
+            return results.results;
         });
     },
 
