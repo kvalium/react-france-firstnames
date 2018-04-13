@@ -85,15 +85,21 @@ const loadElastic = () => {
 }
 
 
-const search = (term) => {
+const search = (term, results = 100, lev) => {
   const start = new Date().getTime();
+  
+  let search = lev ? term + '~' + Math.abs(lev) : term;
+
+  if(results > 100){
+    let results = 100;
+  }
 
   return new Promise((resolve, reject) => {
     client.search({
         index: 'prenoms',
         analyzer: 'default',
-        size: 2,
-        q: `prenom:${term}`
+        size: results,
+        q: `prenom:${search}`
       },
       (err, reply) => {
         if(err){
