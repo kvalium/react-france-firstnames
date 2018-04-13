@@ -1,13 +1,12 @@
 const elasticsearch = require('elasticsearch');
 const
-  ELASTICSEARCH_HOST = process.env.ELASTICSEARCH_HOST || 'localhost',
-  ELASTICSEARCH_PORT = process.env.ELASTICSEARCH_PORT || 9200,
+  ELASTICSEARCH_HOST = process.env.ELASTICSEARCH_HOST || 'localhost:9200',
   colors = require('colors'),
   models = require('../models/prenom'),
   franceModel = models.franceModel;
 
 var client = new elasticsearch.Client({
-  host: `${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}`,
+  host: ELASTICSEARCH_HOST,
 });
 
 const elasticSettings = {
@@ -26,7 +25,7 @@ client.ping({
   requestTimeout: 1000
 }, error => {
   if (error) {
-    console.trace('ElasticSearch cluster is down!');
+    console.trace(`ElasticSearch cluster is down! host: ${ELASTICSEARCH_HOST}`);
   } else {
     console.log('✅ ElasticSearch connection established.');
     client.indices.delete({index: 'prenoms'}, () => {
