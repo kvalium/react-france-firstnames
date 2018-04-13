@@ -88,14 +88,19 @@ const loadElastic = () => {
 const search = (term) => {
   const start = new Date().getTime();
 
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     client.search({
         index: 'prenoms',
         analyzer: 'default',
-        size: 100,
-        q: `prenom:${term}~1`
+        size: 2,
+        q: `prenom:${term}`
       },
       (err, reply) => {
+        if(err){
+          console.log(err.message);
+          resolve({results: []});
+          return;
+        }
         const hits = reply.hits.hits;
         let results = [];
         hits.filter(x => results.push(x._source.prenom));
