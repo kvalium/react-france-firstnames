@@ -7,7 +7,7 @@
  */
 
 const {buildSchema} = require('graphql');
-const redis = require('./redis');
+const elastic = require('./elasticSearch');
 const mongoose = require('./mongoose');
 
 
@@ -86,7 +86,7 @@ let root = {
      * @returns {Promise|*|PromiseLike<T>|Promise<T>}
      */
     search: ({term}) => {
-        return redis.searchRedis(term.toUpperCase()).then((nb) => {
+        return elastic.search(term).then((nb) => {
             console.log('Prenom Search for: "' + term + '" => ' + nb.results.length + ' results (' + nb.timer + ' ms)');
             return nb.results;
         });
