@@ -1,6 +1,8 @@
-# React Prenoms project
+# MELIAMO
 
-## [Website URL](http://react-prenoms-frontend.s3-website.eu-west-3.amazonaws.com/)
+## French first name stat app. React front + NodeJS back with GraphQL & ElasticSearch :)
 
-### [Front-end](./client/)
-### [Back-end](./server/)
+![picture](screen.png)
+
+### [React Front-end](./client/)
+### [NodeJS Express Back-end](./server/)

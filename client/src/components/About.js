@@ -7,7 +7,7 @@ const About = () => (
     <h2>Pile technique</h2>
     <p>
       Meliamo utilise un back-end lié à une base de données MongoDB contenant les données relatives aux prénoms 
-      (année, nombre, sexe, département) et un cache Redis stockant tous les prénoms. C'est ce cache qui est interrogé lors
+      (année, nombre, sexe, département) et un cluster ElasticSearch stockant tous les prénoms. C'est ce cache qui est interrogé lors
       de la recherche du prénom sur la page d'accueil et permet d'obtenir des résultats très rapides. 
       Le back-end expose une instance GraphQL utilisée pour toutes les opérations de recherche de données.
     </p>

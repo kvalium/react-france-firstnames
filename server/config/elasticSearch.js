@@ -51,7 +51,7 @@ const countElements = () => {
 }
 
 /***
- * Load Redis cache data with prenom list
+ * Load ElasticSearch data with prenom list
  *
  * @returns {Promise<any>}
  * @constructor

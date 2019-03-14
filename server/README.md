@@ -2,14 +2,9 @@
 
 ## Prerequisites
 
-### Redis server
+### ElasticSearch server
 
-Install Redis Cache server, it will stores list of all Prenoms, to speed-up search and autocompletion.
-
-**MacOS**
-```
-brew install redis
-```
+Install ElasticSearch server, it will stores list of all Prenoms, to speed-up search and autocompletion.
 
 ### MongoDB
 
@@ -25,12 +20,12 @@ Launch the server
 
 `node server.js`
 
-You should see the following output. If something fails, please ensures that both Mongo and Redis are running.
+You should see the following output. If something fails, please ensures that both Mongo and ElasticSearch are running.
 
 ```
 $ node server.js 
 ✅ A GraphQL API running at port 4000
-✅ Redis connection established.
 ✅ Mongo connection established.
-🚀 31665 Prenom loaded on Redis.
+✅ ElasticSearch connection established.
+🚀 31665 Prenom loaded on Elastic cluster.
 ```
