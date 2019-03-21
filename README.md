@@ -8,10 +8,12 @@ Autocomplete field uses an ElasticSearch cluster to retrieve suggestions based u
 
 ### Homepage
 ![picture](screen.png)
+
 `Search t=Marie, nb=21, lev=2 => 21 results (12 ms)`
 
 ### Stat screen
 ![picture](graph.png)
+
 `Search t=Alix, nb=21, lev=2 => 21 results (10 ms)`
 ### [React Front-end](./client/)
 ### [NodeJS Express Back-end](./server/)
